@@ -1,0 +1,401 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <DB1_AnyMarket>
+            <version>2.5.0</version>
+        </DB1_AnyMarket>
+    </modules>
+    <global>
+<!-- -->
+        <fieldsets>
+            <sales_convert_quote>                           
+                <payment_description>
+                    <to_order>*</to_order>
+                </payment_description>
+            </sales_convert_quote>
+
+            <sales_convert_order>
+                <payment_description>
+                    <to_quote>*</to_quote>
+                </payment_description>
+            </sales_convert_order>
+        </fieldsets>
+<!-- -->
+        <resources>
+            <db1_anymarket_setup>
+                <setup>
+                    <module>DB1_AnyMarket</module>
+                    <class>DB1_AnyMarket_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>default_setup</use>
+                </connection>
+            </db1_anymarket_setup>
+
+<!-- METODO DE PAGAMENTO -->
+            <db1_anymarke_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </db1_anymarke_write>
+            <db1_anymarke_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </db1_anymarke_read>
+<!-- METODO DE PAGAMENTO -->
+
+        </resources>
+        <blocks>
+            <db1_anymarket>
+                <class>DB1_AnyMarket_Block</class>
+            </db1_anymarket>
+        </blocks>
+        <helpers>
+            <db1_anymarket>
+                <class>DB1_AnyMarket_Helper</class>
+            </db1_anymarket>
+        </helpers>
+        <models>
+            <db1_anymarket>
+                <class>DB1_AnyMarket_Model</class>
+                <resourceModel>db1_anymarket_resource</resourceModel>
+            </db1_anymarket>
+            <db1_anymarket_resource>
+                <class>DB1_AnyMarket_Model_Resource</class>
+                <entities>
+                    <anymarketlog>
+                        <table>db1_anymarket_anymarketlog</table>
+                    </anymarketlog>
+                    <anymarketproducts>
+                        <table>db1_anymarket_anymarketproducts</table>
+                    </anymarketproducts>
+                    <anymarketattributes>
+                        <table>db1_anymarket_anymarketattributes</table>
+                    </anymarketattributes>
+                    <anymarketorders>
+                        <table>db1_anymarket_anymarketorders</table>
+                    </anymarketorders>
+                    <anymarketcategories>
+                        <table>db1_anymarket_anymarketcategories</table>
+                    </anymarketcategories>
+                    <anymarketqueue>
+                        <table>db1_anymarket_anymarketqueue</table>
+                    </anymarketqueue>
+                    <anymarketbrands>
+                        <table>db1_anymarket_anymarketbrands</table>
+                    </anymarketbrands>
+                    <anymarketlog_store>
+                        <table>db1_anymarket_anymarketlog_store</table>
+                    </anymarketlog_store>
+                    <anymarketproducts_store>
+                        <table>db1_anymarket_anymarketproducts_store</table>
+                    </anymarketproducts_store>
+                    <anymarketattributes_store>
+                        <table>db1_anymarket_anymarketattributes_store</table>
+                    </anymarketattributes_store>   
+                    <anymarketorders_store>
+                        <table>db1_anymarket_anymarketorders_store</table>
+                    </anymarketorders_store>
+                    <anymarketcategories_store>
+                        <table>db1_anymarket_anymarketcategories_store</table>
+                    </anymarketcategories_store>
+                    <anymarketqueue_store>
+                        <table>db1_anymarket_anymarketqueue_store</table>
+                    </anymarketqueue_store>
+                    <anymarketbrands_store>
+                        <table>db1_anymarket_anymarketbrands_store</table>
+                    </anymarketbrands_store>
+                </entities>
+            </db1_anymarket_resource>
+        </models>
+        <events>
+
+            <!-- CONFIGURATIONS -->
+            <admin_system_config_changed_section_anymarket_section>
+                <observers>
+                    <db1_anymarket>
+                        <type>singleton</type>
+                        <class>db1_anymarket/observer</class>
+                        <method>saveConfigurations</method>
+                    </db1_anymarket>
+                </observers>
+            </admin_system_config_changed_section_anymarket_section>
+
+            <sales_order_save_commit_after>
+                <observers>
+                    <sales_order_save_commit_after_handler>
+                        <type>model</type>
+                        <class>db1_anymarket/observer</class>
+                        <method>updateOrderAnyMarketObs</method>
+                        <args></args>
+                    </sales_order_save_commit_after_handler>
+                </observers>
+            </sales_order_save_commit_after>
+
+            <!-- CATEGORIA -->
+            <catalog_category_save_commit_after>
+                <observers>
+                    <db1_anymarket>
+                        <type>singleton</type>
+                        <class>db1_anymarket/observer</class>
+                        <method>updateCategory</method>
+                    </db1_anymarket>
+                </observers>
+            </catalog_category_save_commit_after>
+
+            <catalog_category_delete_before>
+                <observers>
+                    <db1_anymarket>
+                        <type>singleton</type>
+                        <class>db1_anymarket/observer</class>
+                        <method>deleteCategory</method>
+                    </db1_anymarket>
+                </observers>
+            </catalog_category_delete_before>
+
+            <!-- PRODUTO -->
+            <controller_action_predispatch_adminhtml_catalog_product_quickCreate>
+                <observers>
+                    <db1_anymarket>
+                        <type>singleton</type>
+                        <class>db1_anymarket/observer</class>
+                        <method>setQuickCreateFlag</method>
+                        <args></args>
+                    </db1_anymarket>
+                </observers>
+            </controller_action_predispatch_adminhtml_catalog_product_quickCreate>
+
+            <catalog_product_save_after>
+                <observers>
+                    <db1_anymarket>
+                        <class>db1_anymarket/observer</class>
+                        <method>sendProdAnyMarket</method>
+                    </db1_anymarket>
+                </observers>
+            </catalog_product_save_after>
+
+            <catalog_product_delete_after>
+                <observers>
+                    <db1_anymarket>
+                        <class>db1_anymarket/observer</class>
+                        <method>removeProdAnyMarketControl</method>
+                    </db1_anymarket>
+                </observers>
+            </catalog_product_delete_after>
+
+            <!-- ORDER -->
+            <sales_order_save_after>
+                <observers>
+                    <db1_anymarket>
+                        <class>db1_anymarket/observer</class>
+                        <method>updateOrderAnyMarketObs</method>
+                    </db1_anymarket>
+                </observers>
+            </sales_order_save_after>
+
+            <!-- ESTOQUE -->
+            <cataloginventory_stock_item_save_commit_after>
+                <observers>
+                    <db1_anymarket>
+                        <class>db1_anymarket/observer</class>
+                        <method>catalogInventorySave</method>
+                    </db1_anymarket>
+                </observers>
+            </cataloginventory_stock_item_save_commit_after>
+
+            <sales_model_service_quote_submit_before>
+                <observers>
+                    <db1_anymarket>
+                        <class>db1_anymarket/observer</class>
+                        <method>subtractQuoteInventory</method>
+                    </db1_anymarket>
+                </observers>
+            </sales_model_service_quote_submit_before>
+
+            <sales_model_service_quote_submit_failure>
+                <observers>
+                    <db1_anymarket>
+                        <class>db1_anymarket/observer</class>
+                        <method>revertQuoteInventory</method>
+                    </db1_anymarket>
+                </observers>
+            </sales_model_service_quote_submit_failure>
+
+            <sales_order_item_cancel>
+                <observers>
+                    <db1_anymarket>
+                        <class>db1_anymarket/observer</class>
+                        <method>cancelOrderItem</method>
+                    </db1_anymarket>
+                </observers>
+            </sales_order_item_cancel>
+
+            <sales_order_creditmemo_save_after>
+                <observers>
+                    <db1_anymarket>
+                        <class>db1_anymarket/observer</class>
+                        <method>refundOrderInventory</method>
+                    </db1_anymarket>
+                </observers>
+            </sales_order_creditmemo_save_after>
+
+        </events>
+
+    </global>
+   <default>
+      <queue_qty>
+          <qty>150</qty>  <!-- Quantidade itens processo pela queue por vez -->
+      </queue_qty>
+      <payment>
+        <db1_anymarket>
+          <active>0</active>
+          <model>db1_anymarket/paymentMethod</model>
+          <order_status>New</order_status>
+          <title>Metodo enviado pelo AnyMarket</title>
+          <payment_action>authorize</payment_action>
+          <allowspecific>0</allowspecific>
+        </db1_anymarket>
+      </payment>
+
+      <anymarket_section>
+
+        <anymarket_integration_prod_group>
+            <anymarket_type_prod_sync_field>0</anymarket_type_prod_sync_field>
+            <anymarket_type_weight_field>0</anymarket_type_weight_field>
+        </anymarket_integration_prod_group>
+
+        <anymarket_integration_order_group>
+            <anymarket_type_order_sync_field>1</anymarket_type_order_sync_field>
+        </anymarket_integration_order_group>
+
+        <anymarket_attribute_group>
+            <anymarket_customer_group_field>1</anymarket_customer_group_field>
+            <anymarket_doc_type_field>taxvat</anymarket_doc_type_field>
+            <anymarket_preco_field>price</anymarket_preco_field>
+            <anymarket_vol_comp_field>volume_comprimento</anymarket_vol_comp_field>
+            <anymarket_vol_alt_field>volume_altura</anymarket_vol_alt_field>
+            <anymarket_vol_larg_field>volume_largura</anymarket_vol_larg_field>
+            <anymarket_video_url_field>video_url</anymarket_video_url_field>
+            <anymarket_nbm_field>nbm</anymarket_nbm_field>
+            <anymarket_nbm_origin_field>origin</anymarket_nbm_origin_field>
+            <anymarket_ean_field>ean</anymarket_ean_field>
+            <anymarket_warranty_text_field>warranty_text</anymarket_warranty_text_field>
+            <anymarket_warranty_time_field>warranty_time</anymarket_warranty_time_field>
+            <anymarket_brand_field>brand</anymarket_brand_field>
+            <anymarket_model_field>model</anymarket_model_field>
+            <anymarket_price_factor_field>markup</anymarket_price_factor_field>
+        </anymarket_attribute_group>
+
+        <anymarket_cron_group>
+            <anymarket_order_field>1</anymarket_order_field>
+            <anymarket_product_field>1</anymarket_product_field>
+        </anymarket_cron_group>
+
+        <anymarket_logs_group>
+        <anymarket_log_nivel_field>2</anymarket_log_nivel_field>
+        </anymarket_logs_group>
+
+      </anymarket_section>
+    </default>
+<!-- CRON -->
+    <crontab>
+        <jobs>            
+            <db1_anymarket_getorders>
+                <schedule><cron_expr>0 0,12 * * *</cron_expr></schedule> <!-- 12 horas -->
+                <run><model>db1_anymarket/cron::sincOrders</model></run>
+            </db1_anymarket_getorders>
+            <db1_anymarket_getprods>
+                <schedule><cron_expr>0 * * * *</cron_expr></schedule> <!-- 1 hora -->
+                <run><model>db1_anymarket/cron::sincProducts</model></run>
+            </db1_anymarket_getprods>
+            <db1_anymarket_cleanlogs>
+                <schedule><cron_expr>5 5 * * 6</cron_expr></schedule>  <!-- 1 vez por semana -->
+                <run><model>db1_anymarket/cron::executeCleanLogs</model></run>
+            </db1_anymarket_cleanlogs>
+            <db1_anymarket_executereindex>
+                <schedule><cron_expr>59 0 * * * </cron_expr></schedule>  <!-- 15 min -->
+                <run><model>db1_anymarket/cron::executeReindex</model></run>
+            </db1_anymarket_executereindex>
+            <db1_anymarket_execqueue>
+                <schedule><cron_expr>*/15 * * * *</cron_expr></schedule>  <!-- 15 min -->
+                <run><model>db1_anymarket/cron::executeQueue</model></run>
+            </db1_anymarket_execqueue>
+        </jobs>
+    </crontab>
+<!-- CRON -->
+
+    <adminhtml>
+
+        <layout>
+            <updates>
+                <db1_anymarket>
+                    <file>db1_anymarket.xml</file>
+                </db1_anymarket>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <db1_anymarket>
+                    <files>
+                        <default>DB1_AnyMarket.csv</default>
+                    </files>
+                </db1_anymarket>
+            </modules>
+        </translate>
+        <global_search>
+            <anymarketlog>
+                <class>db1_anymarket/adminhtml_search_anymarketlog</class>
+                <acl>db1_anymarket</acl>
+            </anymarketlog>
+            <anymarketproducts>
+                <class>db1_anymarket/adminhtml_search_anymarketproducts</class>
+                <acl>db1_anymarket</acl>
+            </anymarketproducts>
+            <anymarketattributes>
+                <class>db1_anymarket/adminhtml_search_anymarketattributes</class>
+                <acl>db1_anymarket</acl>
+            </anymarketattributes>
+            <anymarketorders>
+                <class>db1_anymarket/adminhtml_search_anymarketorders</class>
+                <acl>db1_anymarket</acl>
+            </anymarketorders>
+            <anymarketcategories>
+                <class>db1_anymarket/adminhtml_search_anymarketcategories</class>
+                <acl>db1_anymarket</acl>
+            </anymarketcategories>
+            <anymarketqueue>
+                <class>db1_anymarket/adminhtml_search_anymarketqueue</class>
+                <acl>db1_anymarket</acl>
+            </anymarketqueue>
+            <anymarketbrands>
+                <class>db1_anymarket/adminhtml_search_anymarketbrands</class>
+                <acl>db1_anymarket</acl>
+            </anymarketbrands>
+        </global_search>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <DB1_AnyMarket before="Mage_Adminhtml">DB1_AnyMarket_Adminhtml</DB1_AnyMarket>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <frontend>
+        <routers>
+            <anymarketcallback>
+                <use>standard</use>
+                <args>
+                    <module>DB1_AnyMarket</module>
+                    <frontName>anymarketcallback</frontName>
+                </args>
+            </anymarketcallback>
+        </routers>  
+    </frontend>
+
+</config>

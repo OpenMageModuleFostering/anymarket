@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <db1_anymarket translate="title" module="db1_anymarket">
+                                        <title>AnyMarket</title>
+                                    </db1_anymarket>
+
+                                    <anymarket_section translate="title" module="db1_anymarket">
+                                        <title>AnyMarket</title>
+                                        <sort_order>100</sort_order>
+                                    </anymarket_section>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <system>
+                        <children>
+                            <db1_anymarket translate="title" module="db1_anymarket">
+                                <title>AnyMarket</title>
+                                <children>
+                                    <anymarketproducts translate="title" module="db1_anymarket">
+                                        <title>Anymarket Products</title>
+                                        <sort_order>0</sort_order>
+                                    </anymarketproducts>
+                                    <anymarketorders translate="title" module="db1_anymarket">
+                                        <title>Anymarket Orders</title>
+                                        <sort_order>10</sort_order>
+                                    </anymarketorders>
+                                    <anymarketattributes translate="title" module="db1_anymarket">
+                                        <title>Anymarket Attributes</title>
+                                        <sort_order>20</sort_order>
+                                    </anymarketattributes>
+
+                                    <anymarketbrands translate="title" module="db1_anymarket">
+                                        <title>Anymarket Brands</title>
+                                        <sort_order>30</sort_order>
+                                    </anymarketbrands>
+
+                                    <anymarketcategories translate="title" module="db1_anymarket">
+                                        <title>Anymarket Categories</title>
+                                        <sort_order>40</sort_order>
+                                    </anymarketcategories>
+                                    <anymarketqueue translate="title" module="db1_anymarket">
+                                        <title>Anymarket Queue</title>
+                                        <sort_order>50</sort_order>
+                                    </anymarketqueue>
+                                    <anymarketlog translate="title" module="db1_anymarket">
+                                        <title>Anymarket Log</title>
+                                        <sort_order>60</sort_order>
+                                    </anymarketlog>
+                                </children>
+                            </db1_anymarket>
+                        </children>
+                    </system>
+
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <menu>
+        <system>
+            <children>
+                <db1_anymarket translate="title" module="db1_anymarket">
+                    <title>AnyMarket</title>
+                    <sort_order>0</sort_order>
+                    <children>
+                        <anymarketproducts translate="title" module="db1_anymarket">
+                            <title>Anymarket Products</title>
+                            <action>adminhtml/anymarket_anymarketproducts</action>
+                            <sort_order>0</sort_order>
+                        </anymarketproducts>
+                        <anymarketorders translate="title" module="db1_anymarket">
+                            <title>Anymarket Orders</title>
+                            <action>adminhtml/anymarket_anymarketorders</action>
+                            <sort_order>10</sort_order>
+                        </anymarketorders>
+                        <anymarketattributes translate="title" module="db1_anymarket">
+                            <title>Anymarket Attributes</title>
+                            <action>adminhtml/anymarket_anymarketattributes</action>
+                            <sort_order>20</sort_order>
+                        </anymarketattributes>
+                        <anymarketbrands translate="title" module="db1_anymarket">
+                            <title>Anymarket Brands</title>
+                            <action>adminhtml/anymarket_anymarketbrands</action>
+                            <sort_order>30</sort_order>
+                        </anymarketbrands>
+                        <anymarketcategories translate="title" module="db1_anymarket">
+                            <title>Anymarket Categories</title>
+                            <action>adminhtml/anymarket_anymarketcategories</action>
+                            <sort_order>40</sort_order>
+                        </anymarketcategories>
+                        <anymarketqueue translate="title" module="db1_anymarket">
+                            <title>Anymarket Queue</title>
+                            <action>adminhtml/anymarket_anymarketqueue</action>
+                            <sort_order>50</sort_order>
+                        </anymarketqueue>
+                        <anymarketlog translate="title" module="db1_anymarket">
+                            <title>Anymarket Log</title>
+                            <action>adminhtml/anymarket_anymarketlog</action>
+                            <sort_order>60</sort_order>
+                        </anymarketlog>
+                    </children>
+                </db1_anymarket>
+            </children>
+        </system>
+
+    </menu>
+</config>
